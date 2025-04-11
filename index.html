@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: O Que As Cartas Revelam Sobre Seu Futuro?</title>
+    <style>
+        :root {
+            --purple-mystic: #6a0dad;
+            --golden-light: #ffd700;
+            --deep-night: #1a0033;
+            --crystal-white: #f8f1ff;
+            --passion-pink: #e83f8c;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--deep-night);
+            color: var(--crystal-white);
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1513366208864-87536b8bd7b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(26, 0, 51, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(106, 13, 173, 0.5);
+            border: 1px solid var(--golden-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(232, 63, 140, 0.1) 0%, rgba(26, 0, 51, 0) 70%);
+            animation: pulse 15s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--golden-light);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+        }
+        
+        h1::after {
+            content: "";
+            display: block;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple-mystic), var(--passion-pink));
+            margin: 1rem auto;
+            border-radius: 3px;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--golden-light);
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .answer-btn {
+            background: rgba(106, 13, 173, 0.3);
+            border: 2px solid var(--purple-mystic);
+            color: var(--crystal-white);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            text-align: left;
+            backdrop-filter: blur(5px);
+        }
+        
+        .answer-btn:hover {
+            background: var(--purple-mystic);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(232, 63, 140, 0.4);
+            border-color: var(--passion-pink);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(248, 241, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-mystic), var(--passion-pink));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .result-container {
+            text-align: center;
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            color: var(--golden-light);
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .result-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-btn {
+            background: linear-gradient(45deg, var(--passion-pink), var(--purple-mystic));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(232, 63, 140, 0.5);
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 63, 140, 0.7);
+            background: linear-gradient(45deg, var(--purple-mystic), var(--passion-pink));
+        }
+        
+        .floating-cards {
+            position: absolute;
+            width: 100px;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 20px) rotate(5deg); }
+            50% { transform: translate(0, 40px) rotate(0deg); }
+            75% { transform: translate(-20px, 20px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        .card1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .card2 { top: 70%; left: 80%; animation-delay: 2s; animation-duration: 18s; }
+        .card3 { top: 30%; left: 85%; animation-delay: 4s; animation-duration: 12s; }
+        
+        .question-counter {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--golden-light);
+            font-weight: 500;
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.7;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="quiz-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" class="floating-cards card1">
+        <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" class="floating-cards card2">
+        <img src="https://cdn-icons-png.flaticon.com/512/271/271228.png" class="floating-cards card3">
+        
+        <h1>🔮 O QUE AS CARTAS REVELAM SOBRE SEU FUTURO? 🔮</h1>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        
+        <div class="question-counter" id="counter">Pergunta 1 de 5</div>
+        
+        <div id="quiz-content">
+            <div class="question" id="question"></div>
+            <div class="answers" id="answers"></div>
+        </div>
+        
+        <div class="result-container" id="result">
+            <div class="result-title">SEU DESTINO ESTÁ REVELADO!</div>
+            <div class="result-text" id="result-text"></div>
+            <button class="cta-btn" id="cta-btn">RECEBA SUA LEITURA COMPLETA AGORA!</button>
+            <p class="disclaimer">Este quiz é apenas uma demonstração. Para uma análise completa e personalizada, adquira sua leitura detalhada.</p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Qual dessas imagens mais chama sua atenção neste momento?",
+                answers: [
+                    { text: "🌊 Ondas do mar batendo nas rochas", score: "spiritual" },
+                    { text: "💘 Dois corações entrelaçados", score: "love" },
+                    { text: "💰 Uma bolsa cheia de moedas de ouro", score: "money" },
+                    { text: "🛤️ Uma estrada que se divide em dois caminhos", score: "life" }
+                ]
+            },
+            {
+                question: "Quando pensa no futuro, qual sentimento predomina?",
+                answers: [
+                    { text: "😃 Empolgação e curiosidade", score: "life" },
+                    { text: "😨 Medo e incerteza", score: "spiritual" },
+                    { text: "💑 Saudade de alguém especial", score: "love" },
+                    { text: "🤑 Preocupação com dinheiro", score: "money" }
+                ]
+            },
+            {
+                question: "Qual dessas frases mais combina com você?",
+                answers: [
+                    { text: "Meu coração está pronto para um novo amor", score: "love" },
+                    { text: "Preciso de direção para tomar decisões importantes", score: "life" },
+                    { text: "Quero entender meu propósito na vida", score: "spiritual" },
+                    { text: "Desejo abundância e segurança financeira", score: "money" }
+                ]
+            },
+            {
+                question: "Se pudesse ter uma resposta agora, seria sobre...",
+                answers: [
+                    { text: "Quando vou encontrar minha alma gêmea?", score: "love" },
+                    { text: "Vou conseguir meu emprego dos sonhos?", score: "money" },
+                    { text: "Qual é o próximo passo na minha jornada?", score: "life" },
+                    { text: "Qual é meu verdadeiro propósito espiritual?", score: "spiritual" }
+                ]
+            },
+            {
+                question: "Complete a frase: Eu mereço...",
+                answers: [
+                    { text: "Um amor verdadeiro e profundo", score: "love" },
+                    { text: "Abundância em todas as áreas da vida", score: "money" },
+                    { text: "Descobrir os mistérios do universo", score: "spiritual" },
+                    { text: "A felicidade que sempre sonhei", score: "life" }
+                ]
+            }
+        ];
+
+        const results = {
+            love: {
+                title: "O AMOR ESTÁ BATENDO À SUA PORTA!",
+                text: "✨ Nossas cartas revelam que você está prestes a viver uma grande transformação no amor! Seu coração está pronto para receber uma energia poderosa que pode mudar completamente sua vida amorosa nos próximos meses. Mas cuidado! Há um desafio importante que você precisa superar primeiro...",
+                cta: "DESCUBRA O QUE AS CARTAS REVELAM SOBRE SEU AMOR"
+            },
+            money: {
+                title: "FORTUNA ESPERANDO POR VOCÊ!",
+                text: "💰 Seu campo energético financeiro está vibrando em alta frequência! As cartas mostram uma oportunidade única que surgirá nos próximos 21 dias - mas apenas para quem estiver preparado. Há um bloqueio que precisa ser removido para que a abundância flua livremente em sua vida...",
+                cta: "LIBERE SEUS CAMINHOS FINANCEIROS AGORA"
+            },
+            life: {
+                title: "SEU DESTINO ESTÁ MUDANDO AGORA!",
+                text: "🛤️ As cartas mostram um momento crucial de decisão em seu caminho! Você está prestes a enfrentar uma encruzilhada que definirá os próximos anos de sua vida. As energias estão alinhadas para uma transformação poderosa, mas você precisa tomar a direção certa...",
+                cta: "DESCUBRA O CAMINHO CERTO PARA SEU FUTURO"
+            },
+            spiritual: {
+                title: "DESPERTE SEU PODER ESPIRITUAL!",
+                text: "🌌 Sua aura está brilhando intensamente! As cartas revelam que você está em um processo de despertar espiritual acelerado. Seus guias estão tentando enviar mensagens importantes, mas há um véu que precisa ser removido para que você possa receber toda essa sabedoria...",
+                cta: "RECEBA AS MENSAGENS DOS SEUS GUIAS ESPIRITUAIS"
+            }
+        };
+
+        let currentQuestion = 0;
+        let score = { love: 0, money: 0, life: 0, spiritual: 0 };
+        const quizContent = document.getElementById('quiz-content');
+        const resultContainer = document.getElementById('result');
+        const resultText = document.getElementById('result-text');
+        const ctaBtn = document.getElementById('cta-btn');
+        const progressBar = document.getElementById('progress');
+        const counter = document.getElementById('counter');
+
+        function showQuestion() {
+            counter.textContent = `Pergunta ${currentQuestion + 1} de ${questions.length}`;
+            progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            const question = questions[currentQuestion];
+            document.getElementById('question').textContent = question.question;
+            
+            const answersContainer = document.getElementById('answers');
+            answersContainer.innerHTML = '';
+            
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.classList.add('answer-btn');
+                button.textContent = answer.text;
+                button.addEventListener('click', () => selectAnswer(answer.score));
+                answersContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(answerScore) {
+            score[answerScore]++;
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizContent.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // Determinar resultado com maior pontuação
+            let maxScore = 0;
+            let finalResult = 'life';
+            
+            for (const [key, value] of Object.entries(score)) {
+                if (value > maxScore) {
+                    maxScore = value;
+                    finalResult = key;
+                }
+            }
+            
+            const result = results[finalResult];
+            document.querySelector('.result-title').textContent = result.title;
+            resultText.textContent = result.text;
+            ctaBtn.textContent = result.cta;
+            
+            // Animação de confetes
+            for (let i = 0; i < 50; i++) {
+                createConfetti();
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = [
+                '#ffd700', '#e83f8c', '#6a0dad', '#ffffff'
+            ][Math.floor(Math.random() * 4)];
+            confetti.style.borderRadius = '50%';
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.top = '-10px';
+            confetti.style.zIndex = '1000';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        // Adicionar animação de confetes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Redirecionar para o site de vendas
+        ctaBtn.addEventListener('click', () => {
+            window.location.href = 'https://sacerdotisa-da-lua.vercel.app/';
+        });
+
+        // Iniciar quiz
+        showQuestion();
+    </script>
+</body>
+</html>
